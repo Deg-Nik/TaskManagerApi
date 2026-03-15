@@ -1,6 +1,8 @@
 package com.example.taskmanagerapi.service;
 
+import com.example.taskmanagerapi.dto.request.CreateTaskRequest;
 import com.example.taskmanagerapi.entity.Task;
+import com.example.taskmanagerapi.entity.User;
 import com.example.taskmanagerapi.enums.TaskStatus;
 import com.example.taskmanagerapi.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,13 +54,26 @@ class TaskServiceTest {
     @Test
     @DisplayName("create — статус TODO по умолчанию")
     void create_defaultStatus() {
-        Task newTask = new Task(null, "New", "Desc", null);
+        // given
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("New");
+        request.setDescription("Desc");
 
-        when(taskRepository.save(any(Task.class))).thenAnswer(inv -> inv.getArgument(0));
+        User owner = new User();
+        owner.setId(1L);
+        owner.setUsername("nikolai");
 
-        Task saved = taskService.create(newTask);
+        when(taskRepository.save(any(Task.class)))
+                .thenAnswer(inv -> inv.getArgument(0));
 
+        // when
+        Task saved = taskService.create(request, owner);
+
+        // then
         assertThat(saved.getStatus()).isEqualTo(TaskStatus.TODO);
+        assertThat(saved.getOwner()).isEqualTo(owner);
+        assertThat(saved.getTitle()).isEqualTo("New");
     }
+
 }
 

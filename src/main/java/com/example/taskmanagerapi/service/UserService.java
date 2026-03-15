@@ -12,20 +12,20 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
-    public User register(RegisterRequest request) {
-
-        if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Пользователь с таким username уже существует");
-        }
-
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        return userRepository.save(user);
-    }
+//    public User register(RegisterRequest request) {
+//
+//        if (userRepository.existsByUsername(request.getUsername())) {
+//            throw new RuntimeException("Пользователь с таким username уже существует");
+//        }
+//
+//        User user = new User();
+//        user.setUsername(request.getUsername());
+//        user.setPassword(passwordEncoder.encode(request.getPassword()));
+//
+//        return userRepository.save(user);
+//    }
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)

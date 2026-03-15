@@ -22,7 +22,7 @@ class UserServiceTest {
         userRepository = mock(UserRepository.class);
         PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        userService = new UserService(userRepository, passwordEncoder);
+        userService = new UserService(userRepository);
     }
 
 

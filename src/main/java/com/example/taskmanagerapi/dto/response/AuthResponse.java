@@ -1,9 +1,17 @@
 package com.example.taskmanagerapi.dto.response;
 
-/**
- * @author : Nikolai Degtiarev
- * created : 14.03.26
- * 
- * 
- **/public class AuthResponse {
+import lombok.Data;
+
+@Data
+
+public class AuthResponse {
+
+    private String token;
+    private String username;
+
+    public AuthResponse(String token, String username) {
+        this.token = token;
+        this.username = username;
+    }
 }
+

@@ -1,4 +1,4 @@
-package com.example.taskmanagerapi.dto;
+package com.example.taskmanagerapi.dto.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

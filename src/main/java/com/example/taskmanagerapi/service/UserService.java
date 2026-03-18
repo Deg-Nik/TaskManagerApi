@@ -31,4 +31,11 @@ public class UserService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден: " + username));
     }
+
+//    public User updateStatus(String username, String role) {
+//        User currentUser = findByUsername(username);
+//
+//        return userRepository.setRole(role)
+//                .orElseThrow(() -> new RuntimeException("username not update"));
+//    }
 }

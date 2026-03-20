@@ -1,5 +1,6 @@
 package com.example.taskmanagerapi.service;
 
+import com.example.taskmanagerapi.dto.request.ChangePasswordRequest;
 import com.example.taskmanagerapi.dto.request.RegisterRequest;
 import com.example.taskmanagerapi.entity.User;
 import com.example.taskmanagerapi.repository.UserRepository;
@@ -37,5 +38,15 @@ public class AuthService {
 
         return userRepository.save(user);
 
+    }
+
+    public void changePassword(User user, ChangePasswordRequest request) {
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new RuntimeException("Старый пароль указан неверно");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 }

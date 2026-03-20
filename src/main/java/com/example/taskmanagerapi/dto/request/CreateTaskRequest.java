@@ -1,5 +1,6 @@
 package com.example.taskmanagerapi.dto.request;
 
+import com.example.taskmanagerapi.enums.TaskPriority;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -12,5 +13,7 @@ public class CreateTaskRequest {    // "A "
 
     @Size(max = 1000, message = "Описание задачи не может содержать более 1000 символов")
     private String description;
+
+    private TaskPriority priority;
 
 }

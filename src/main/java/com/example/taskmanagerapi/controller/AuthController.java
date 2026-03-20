@@ -1,5 +1,6 @@
 package com.example.taskmanagerapi.controller;
 
+import com.example.taskmanagerapi.dto.request.ChangePasswordRequest;
 import com.example.taskmanagerapi.dto.request.RegisterRequest;
 import com.example.taskmanagerapi.entity.User;
 import com.example.taskmanagerapi.service.AuthService;
@@ -47,4 +48,14 @@ public class AuthController {
 
         return ResponseEntity.ok(user);
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(
+            @RequestBody ChangePasswordRequest request,
+            @AuthenticationPrincipal User user
+    ) {
+        authService.changePassword(user, request);
+        return ResponseEntity.ok("Пароль успешно изменён");
+    }
+
 }

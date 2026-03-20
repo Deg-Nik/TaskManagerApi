@@ -3,6 +3,7 @@ package com.example.taskmanagerapi.service;
 import com.example.taskmanagerapi.dto.request.CreateTaskRequest;
 import com.example.taskmanagerapi.entity.Task;
 import com.example.taskmanagerapi.entity.User;
+import com.example.taskmanagerapi.enums.TaskPriority;
 import com.example.taskmanagerapi.enums.TaskStatus;
 import com.example.taskmanagerapi.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,10 @@ public class TaskService {
         newTask.setStatus(TaskStatus.TODO);
         newTask.setOwner(owner);
 
+        newTask
+                .setPriority(request.getPriority() != null
+                        ? request.getPriority() : TaskPriority.LOW);
+
         return taskRepository.save(newTask);
     }
 
@@ -84,5 +89,26 @@ public class TaskService {
         Task task = findById(id);
         taskRepository.delete(task);
     }
+
+    public List<Task> findByPriority(TaskPriority priority) {
+        return taskRepository.findByPriority(priority);
+    }
+
+    public List<Task> findByOwnerAndPriority(User owner, TaskPriority priority) {
+        return taskRepository.findByOwnerAndPriority(owner, priority);
+    }
+
+    @Transactional
+    public Task updatePriority(Long id, TaskPriority priority, User currentUser) {
+        Task task = findById(id);
+
+        if (!task.getOwner().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("Вы не можете менять приоритет чужой задачи");
+        }
+
+        task.setPriority(priority);
+        return taskRepository.save(task);
+    }
+
 
 }

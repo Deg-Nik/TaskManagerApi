@@ -61,7 +61,10 @@ public class SecurityConfig {
                 // ============ AUTHORIZATION RULES ============
                 .authorizeHttpRequests(auth -> auth
                         // Публичные endpoints (доступны ВСЕМ, даже без логина)
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+
+                        // Смена пароля
+                        .requestMatchers("/api/auth/change-password").authenticated()
 
                         // ВСЕ остальные endpoints требуют аутентификации
                         // (пользователь должен войти в систему)

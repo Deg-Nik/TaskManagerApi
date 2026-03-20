@@ -1,5 +1,6 @@
 package com.example.taskmanagerapi.entity;
 
+import com.example.taskmanagerapi.enums.TaskPriority;
 import com.example.taskmanagerapi.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,10 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.TODO;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskPriority priority = TaskPriority.LOW;
+
     /**
      * Владелец задачи
      * Важно для проверки прав доступа!
@@ -44,4 +49,5 @@ public class Task {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
 }

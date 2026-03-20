@@ -13,40 +13,41 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Collections;
 
-/**
- * @author : Nikolai Degtiarev
- * created : 17.03.26
- *
- *
- **/
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+
+        // Шаг 1: Загружаем пользователя из БД
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                   "Пользователь с username '" + username + "' не найден"
+                ));
 
+        // Шаг 2: Преобразовываем нашего User в Spring Security UserDetails
         return buildUserDetails(user);
-
     }
 
     private UserDetails buildUserDetails(User user) {
-        UserDetails newUser = org.springframework.security.core.userdetails.User
+        UserDetails myUser = org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
-                .authorities(getAuthorities(user))
+                .authorities(getAutorities(user))
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)
                 .disabled(!user.getEnabled())
                 .build();
-        return newUser;
+
+        return myUser;
+
     }
 
-    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
+    private Collection<? extends GrantedAuthority> getAutorities(User user) {
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
     }
 }

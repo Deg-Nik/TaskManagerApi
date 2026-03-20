@@ -58,10 +58,4 @@ public class User {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-
-    public User(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
 }

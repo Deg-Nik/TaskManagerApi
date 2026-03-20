@@ -58,7 +58,6 @@ public class SecurityConfig {
                 // Для REST API обычно отключаем, т.к. нет браузерных форм
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-
                 // ============ AUTHORIZATION RULES ============
                 .authorizeHttpRequests(auth -> auth
                         // Публичные endpoints (доступны ВСЕМ, даже без логина)
@@ -139,12 +138,12 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of("http://localhost:8080/"));
-        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 }

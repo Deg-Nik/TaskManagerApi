@@ -44,11 +44,4 @@ public class Task {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-
-    public Task(Long id, String title, String description, TaskStatus status) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.status = status;
-    }
 }
